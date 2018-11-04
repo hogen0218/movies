@@ -15,13 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.staticfiles import views
-
+#两个serve :注意区分
+from django.contrib.staticfiles import views   # 用静态文件的views.server
+from django.views.static import serve    # 用媒体文件的 serve
+from .settings import MEDIA_ROOT
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^movies/', include('movie_details.urls')),
+    url(r'^users/', include('users.urls')),
     url(r'^static/(?P<path>.*)$', views.serve),
-    url(r'^users/', include('users.urls'))
-
-
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT})
 ]

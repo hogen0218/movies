@@ -15,12 +15,40 @@ python3 django 1.11
 开发流程
 1.用户注册登录
     流程：
-        1.扩展django 已有的用户表
+        1.扩展django 已有的用户表   切忌在第一次migrate之前
         2.用户完成注册功能：
             1.生成用户注册表单
             2.验证用户提交过来的表单值
             3.验证都OK之后，用户信息写入数据库
             4.怎么去验证用户的密码
+
+        3.登录流程
+            1.用户带上账户密码来登录
+                1.怎么去验证用户的密码  解决 authenticate
+                2.当把账户密码验证成功之后：
+                    1.login(request,user) 把用户信息生成sessionID 存入浏览器
+
+            2. 登出
+                1.logout(request)  把浏览器里面的sessionID 销毁
+
+        4.展示电影信息
+            1.后台上传电影信息
+                1.图片上传功能
+            2.展示电影信息：
+                1.电影信息分类   ManytoMany
+                2.电影信息要有评分功能
+                3.新建电影的model
     问题：
-        1.解决如何去扩展用户表  from django.contrib.auth.models import User
-        2.写入数据库的时候，密码如何加密
+        1.问题
+            1.解决如何去扩展用户表  from django.contrib.auth.models import User
+            2.写入数据库的时候，密码如何加密
+        2.问题
+            3.模板上面渲染出来的表单，提示信息修改--》widgets的使用
+            4.在登录的时候form表单，如果使用了modelform表单，他就会帮我们自动去验证用户是否存在，如果存在返回form_invalid,我们不想要验证
+        3.问题
+            1.电影信息model设计
+            2.电影信息分类如何做 manytomany
+            3.电影信息图片上传
+            4.如何把电影的model交给admin管理
+                1.图片上传之后的路径需要存储在数据库里面
+                2.需要指定图片上传之后放在服务器哪个地方

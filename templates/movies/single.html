@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <title>Single</title>
+    {% load static %}
 <!-- for-mobile-apps -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,12 +10,12 @@
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link href="css/medile.css" rel='stylesheet' type='text/css' />
-<link href="css/single.css" rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="css/contactstyle.css" type="text/css" media="all" />
-<link rel="stylesheet" href="css/faqstyle.css" type="text/css" media="all" />
+<link href={% static "css/bootstrap.css" %} rel="stylesheet" type="text/css" media="all" />
+<link href={% static "css/style.css" %} rel="stylesheet" type="text/css" media="all" />
+<link href={% static "css/medile.css" %} rel='stylesheet' type='text/css' />
+<link href={% static "css/single.css" %} rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href={% static "css/contactstyle.css" %} type="text/css" media="all" />
+<link rel="stylesheet" href={% static "css/faqstyle.css" %} type="text/css" media="all" />
 <!-- news-css -->
 <link rel="stylesheet" href="news-css/news.css" type="text/css" media="all" />
 <!-- //news-css -->
@@ -22,41 +23,41 @@
 <link rel="stylesheet" href="list-css/list.css" type="text/css" media="all" />
 <!-- //list-css -->
 <!-- font-awesome icons -->
-<link rel="stylesheet" href="css/font-awesome.min.css" />
+<link rel="stylesheet" href={% static "css/font-awesome.min.css" %} />
 <!-- //font-awesome icons -->
 <!-- js -->
-<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src={% static "js/jquery-2.1.4.min.js" %}></script>
 <!-- //js -->
 <!---<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700italic,700,400italic,300italic,300' rel='stylesheet' type='text/css'>--->
 <!-- start-smoth-scrolling -->
-<script type="text/javascript" src="js/move-top.js"></script>
-<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript" src={% static "js/move-top.js" %}></script>
+<script type="text/javascript" src={% static "js/easing.js" %}></script>
 <script type="text/javascript">
 	jQuery(document).ready(function($) {
-		$(".scroll").click(function(event){		
+		$(".scroll").click(function(event){
 			event.preventDefault();
 			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
 		});
 	});
 </script>
 <!-- start-smoth-scrolling -->
-<link href="css/owl.carousel.css" rel="stylesheet" type="text/css" media="all">
-<script src="js/owl.carousel.js"></script>
+<link href={% static "css/owl.carousel.css" %} rel="stylesheet" type="text/css" media="all">
+<script src={% static "js/owl.carousel.js" %}></script>
 <script>
-	$(document).ready(function() { 
+	$(document).ready(function() {
 		$("#owl-demo").owlCarousel({
-	 
+
 		  autoPlay: 3000, //Set AutoPlay to 3 seconds
-	 
+
 		  items : 5,
 		  itemsDesktop : [640,5],
 		  itemsDesktopSmall : [414,4]
-	 
+
 		});
-	 
-	}); 
-</script> 
-<script src="js/simplePlayer.js"></script>
+
+	});
+</script>
+<script src={% static "js/simplePlayer.js" %}></script>
 <script>
 	$("document").ready(function() {
 		$("#video").simplePlayer();
@@ -64,7 +65,7 @@
 </script>
 
 </head>
-	
+
 <body>
 <!-- header -->
 	<div class="header">
@@ -81,7 +82,12 @@
 			<div class="w3l_sign_in_register">
 				<ul>
 					<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 123 345 653</li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+					{% if request.user.is_authenticated %}
+                        {{ request.user.username }}
+					    <li><a href={% url "user_logout" %} data-target="#myModal">logout</a></li>
+                    {% else %}
+                        <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+                    {% endif %}
 				</ul>
 			</div>
 			<div class="clearfix"> </div>
@@ -94,7 +100,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					Sign In & Sign Up
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				</div>
 				<section>
 					<div class="modal-body">
@@ -133,7 +139,7 @@
 		$('.toggle').click(function(){
 		  // Switches the Icon
 		  $(this).children('i').toggleClass('fa-pencil');
-		  // Switches the forms  
+		  // Switches the forms
 		  $('.form').animate({
 			height: "toggle",
 			'padding-top': 'toggle',
@@ -238,7 +244,7 @@
 						</ul>
 					</nav>
 				</div>
-			</nav>	
+			</nav>
 		</div>
 	</div>
 <!-- //nav -->
@@ -248,7 +254,7 @@
 			<li class="w3_twitter"><a href="#">Twitter <i class="fa fa-twitter"></i></a></li>
 			<li class="w3_facebook"><a href="#">Facebook <i class="fa fa-facebook"></i></a></li>
 			<li class="w3_dribbble"><a href="#">Dribbble <i class="fa fa-dribbble"></i></a></li>
-			<li class="w3_g_plus"><a href="#">Google+ <i class="fa fa-google-plus"></i></a></li>				  
+			<li class="w3_g_plus"><a href="#">Google+ <i class="fa fa-google-plus"></i></a></li>
 		</ul>
   </nav>
 </div>
@@ -266,14 +272,20 @@
                    <!-- /movie-browse-agile -->
                            <div class="show-top-grids-w3lagile">
 				<div class="col-sm-8 single-left">
+
+
+
 					<div class="song">
 						<div class="song-info">
-							<h3>THE LEGEND OF TARZAN - Official Trailer 2</h3>	
+							<h3>{{ single_detail.title }}</h3>
 					</div>
 						<div class="video-grid-single-page-agileits">
-							<div data-video="dLmKio67pVQ" id="video"> <img src="images/5.jpg" alt="" class="img-responsive" /> </div>
+							<div data-video="dLmKio67pVQ" id="video"> <img src="{{ MEDIA_URL }}{{ single_detail.images }}" alt="" class="img-responsive" /> </div>
 						</div>
 					</div>
+
+
+
 					<div class="song-grid-right">
 						<div class="share">
 							<h5>Share this</h5>
@@ -322,7 +334,7 @@
 							<a href="#">Comments</a>
 							<div class="agile-info-wthree-box">
 								<form>
-									<input type="text" placeholder="Name" required="">			           					   
+									<input type="text" placeholder="Name" required="">
 									<input type="text" placeholder="Email" required="">
 									<input type="text" placeholder="Phone" required="">
 									<textarea placeholder="Message" required=""></textarea>
@@ -336,7 +348,7 @@
 								<h5>TOM BROWN</h5>
 								<div class="media-left">
 									<a href="#">
-										<img src="images/user.jpg" title="One movies" alt=" " />
+										<img src={% static "images/user.jpg" %} title="One movies" alt=" " />
 									</a>
 								</div>
 								<div class="media-body">
@@ -348,7 +360,7 @@
 								<h5>MARK JOHNSON</h5>
 								<div class="media-left">
 									<a href="#">
-									<img src="images/user.jpg" title="One movies" alt=" " />
+									<img src={% static "images/user.jpg" %} title="One movies" alt=" " />
 									</a>
 								</div>
 								<div class="media-body">
@@ -360,7 +372,7 @@
 								<h5>STEVEN SMITH</h5>
 								<div class="media-left">
 									<a href="#">
-									<img src="images/user.jpg" title="One movies" alt=" " />
+									<img src={% static "images/user.jpg" %} title="One movies" alt=" " />
 									</a>
 								</div>
 								<div class="media-body">
@@ -377,7 +389,7 @@
 					<div class="single-grid-right">
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m1.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m1.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -388,7 +400,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m2.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m2.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -399,7 +411,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m3.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m3.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -410,7 +422,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m4.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m4.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -421,7 +433,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m5.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m5.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -432,7 +444,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/c5.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/c5.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -443,7 +455,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m6.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m6.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -454,7 +466,7 @@
 						</div>
 						<div class="single-right-grids">
 							<div class="col-md-4 single-right-grid-left">
-								<a href="single.html"><img src="images/m15.jpg" alt="" /></a>
+								<a href="single.html"><img src={% static "images/m15.jpg" %} alt="" /></a>
 							</div>
 							<div class="col-md-8 single-right-grid-right">
 								<a href="single.html" class="title"> Nullam interdum metus</a>
@@ -466,9 +478,9 @@
 
 					</div>
 				</div>
-				
 
-				
+
+
 				<div class="clearfix"> </div>
 			</div>
 				<!-- //movie-browse-agile -->
@@ -477,12 +489,12 @@
 				<div id="owl-demo" class="owl-carousel owl-theme">
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m13.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m13.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">Citizen Soldier</a></h6>							
+									<h6><a href="single.html">Citizen Soldier</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -505,12 +517,12 @@
 					</div>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m11.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m11.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">X-Men</a></h6>							
+									<h6><a href="single.html">X-Men</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -533,12 +545,12 @@
 					</div>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m12.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m12.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">Greater</a></h6>							
+									<h6><a href="single.html">Greater</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -561,12 +573,12 @@
 					</div>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m7.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m7.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">Light B/t Oceans</a></h6>							
+									<h6><a href="single.html">Light B/t Oceans</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -589,96 +601,12 @@
 					</div>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m8.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m8.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">The BFG</a></h6>							
-								</div>
-								<div class="mid-2 agile_mid_2_home">
-									<p>2016</p>
-									<div class="block-stars">
-										<ul class="w3l-ratings">
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-										</ul>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-							</div>
-							<div class="ribben">
-								<p>NEW</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m9.jpg" title="album-name" class="img-responsive" alt=" " />
-								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
-							</a>
-							<div class="mid-1 agileits_w3layouts_mid_1_home">
-								<div class="w3l-movie-text">
-									<h6><a href="single.html">Central Intelligence</a></h6>							
-								</div>
-								<div class="mid-2 agile_mid_2_home">
-									<p>2016</p>
-									<div class="block-stars">
-										<ul class="w3l-ratings">
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-										</ul>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-							</div>
-							<div class="ribben">
-								<p>NEW</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m10.jpg" title="album-name" class="img-responsive" alt=" " />
-								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
-							</a>
-							<div class="mid-1 agileits_w3layouts_mid_1_home">
-								<div class="w3l-movie-text">
-									<h6><a href="single.html">Don't Think Twice</a></h6>							
-								</div>
-								<div class="mid-2 agile_mid_2_home">
-									<p>2016</p>
-									<div class="block-stars">
-										<ul class="w3l-ratings">
-											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
-										</ul>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-							</div>
-							<div class="ribben">
-								<p>NEW</p>
-							</div>
-						</div>
-					</div>
-					<div class="item">
-						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m17.jpg" title="album-name" class="img-responsive" alt=" " />
-								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
-							</a>
-							<div class="mid-1 agileits_w3layouts_mid_1_home">
-								<div class="w3l-movie-text">
-									<h6><a href="single.html">Peter</a></h6>							
+									<h6><a href="single.html">The BFG</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -701,12 +629,96 @@
 					</div>
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src="images/m15.jpg" title="album-name" class="img-responsive" alt=" " />
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m9.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">God’s Compass</a></h6>							
+									<h6><a href="single.html">Central Intelligence</a></h6>
+								</div>
+								<div class="mid-2 agile_mid_2_home">
+									<p>2016</p>
+									<div class="block-stars">
+										<ul class="w3l-ratings">
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+										</ul>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="ribben">
+								<p>NEW</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m10.jpg" %} title="album-name" class="img-responsive" alt=" " />
+								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+							</a>
+							<div class="mid-1 agileits_w3layouts_mid_1_home">
+								<div class="w3l-movie-text">
+									<h6><a href="single.html">Don't Think Twice</a></h6>
+								</div>
+								<div class="mid-2 agile_mid_2_home">
+									<p>2016</p>
+									<div class="block-stars">
+										<ul class="w3l-ratings">
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+										</ul>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="ribben">
+								<p>NEW</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m17.jpg" %} title="album-name" class="img-responsive" alt=" " />
+								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+							</a>
+							<div class="mid-1 agileits_w3layouts_mid_1_home">
+								<div class="w3l-movie-text">
+									<h6><a href="single.html">Peter</a></h6>
+								</div>
+								<div class="mid-2 agile_mid_2_home">
+									<p>2016</p>
+									<div class="block-stars">
+										<ul class="w3l-ratings">
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+											<li><a href="#"><i class="fa fa-star-o" aria-hidden="true"></i></a></li>
+										</ul>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="ribben">
+								<p>NEW</p>
+							</div>
+						</div>
+					</div>
+					<div class="item">
+						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
+							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m15.jpg" %} title="album-name" class="img-responsive" alt=" " />
+								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+							</a>
+							<div class="mid-1 agileits_w3layouts_mid_1_home">
+								<div class="w3l-movie-text">
+									<h6><a href="single.html">God’s Compass</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
 									<p>2016</p>
@@ -730,14 +742,14 @@
 				</div>
 			</div>
 		<!--body wrapper end-->
-						
-							 
+
+
 				</div>
 				<!-- //w3l-latest-movies-grids -->
-			</div>	
+			</div>
 		</div>
 	<!-- //w3l-medile-movies-grids -->
-	
+
 <!-- footer -->
 	<div class="footer">
 		<div class="container">
@@ -791,7 +803,7 @@
 	</div>
 <!-- //footer -->
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.min.js"></script>
+<script src={% static "js/bootstrap.min.js" %}></script>
 <script>
 $(document).ready(function(){
     $(".dropdown").hover(            

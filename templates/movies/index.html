@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>-->
 <html lang="en">
 <head>
 <title>Home</title>
@@ -77,7 +77,13 @@
 			<div class="w3l_sign_in_register">
 				<ul>
 					<li><i class="fa fa-phone" aria-hidden="true"></i> (+000) 123 345 653</li>
-					<li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+                    {% if request.user.is_authenticated %}
+                        {{ request.user.username }}
+					    <li><a href={% url "user_logout" %} data-target="#myModal">logout</a></li>
+                    {% else %}
+                        <li><a href="#" data-toggle="modal" data-target="#myModal">Login</a></li>
+                    {% endif %}
+
 				</ul>
 			</div>
 			<div class="clearfix"> </div>
@@ -101,9 +107,11 @@
 							  </div>
 							  <div class="form">
 								<h3>Login to your account</h3>
-								<form action="#" method="post">
-								  <input type="text" name="Username" placeholder="Username" required="">
-								  <input type="password" name="Password" placeholder="Password" required="">
+								<form action={% url 'user_login' %} method="post">
+                                    {% csrf_token %}
+                                    {{ user_login_form }}
+								  <!--<input type="text" name="Username" placeholder="Username" required="">
+								  <input type="password" name="Password" placeholder="Password" required="">-->
 								  <input type="submit" value="Login">
 								</form>
 							  </div>
@@ -111,7 +119,7 @@
 								<h3>Create an account</h3>
 								<form action={% url 'register' %} method="post">
                                     {% csrf_token %}
-                                    {{ user_register }}
+                                    {{ user_register_form }}
 								  <!--<input type="text" name="Username" placeholder="Username" required="">
 								  <input type="password" name="Password" placeholder="Password" required="">
 								  <input type="email" name="Email" placeholder="Email Address" required="">
@@ -243,12 +251,17 @@
 <!-- banner -->
 	<div id="slidey" style="display:none;">
 		<ul>
-			<li><img src={% static "images/5.jpg" %} alt=" "><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
-			<li><img src={% static "images/2.jpg" %} alt=" "><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
-			<li><img src={% static "images/3.jpg" %} alt=" "><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
-			<li><img src={% static "images/4.jpg" %} alt=" "><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
-			<li><img src={% static "images/6.jpg" %} alt=" "><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
-			<li><img src={% static "images/7.jpg" %} alt=" "><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>
+            {% for movie in movies %}
+
+                <li><img src="{{ MEDIA_URL }}{{ movie.images }}" ><p class='title'>{{ movie.title }}</p><p class='description'>{{ movie.desc }}</p></li>
+
+            {% endfor %}
+            <!--<li><img src={% static "images/5.jpg" %} ><p class='title'>Tarzan</p><p class='description'> Tarzan, having acclimated to life in London, is called back to his former home in the jungle to investigate the activities at a mining encampment.</p></li>
+			<li><img src={% static "images/2.jpg" %} ><p class='title'>Maximum Ride</p><p class='description'>Six children, genetically cross-bred with avian DNA, take flight around the country to discover their origins. Along the way, their mysterious past is ...</p></li>
+			<li><img src={% static "images/3.jpg" %} ><p class='title'>Independence</p><p class='description'>The fate of humanity hangs in the balance as the U.S. President and citizens decide if these aliens are to be trusted ...or feared.</p></li>
+			<li><img src={% static "images/4.jpg" %} ><p class='title'>Central Intelligence</p><p class='description'>Bullied as a teen for being overweight, Bob Stone (Dwayne Johnson) shows up to his high school reunion looking fit and muscular. Claiming to be on a top-secret ...</p></li>
+			<li><img src={% static "images/6.jpg" %} ><p class='title'>Ice Age</p><p class='description'>In the film's epilogue, Scrat keeps struggling to control the alien ship until it crashes on Mars, destroying all life on the planet.</p></li>
+			<li><img src={% static "images/7.jpg" %} ><p class='title'>X - Man</p><p class='description'>In 1977, paranormal investigators Ed (Patrick Wilson) and Lorraine Warren come out of a self-imposed sabbatical to travel to Enfield, a borough in north ...</p></li>-->
 		</ul>   	
     </div>
     <script src={% static "js/jquery.slidey.js" %}></script>
@@ -268,17 +281,20 @@
 		<div class="container">
 			<div class="w3_agile_banner_bottom_grid">
 				<div id="owl-demo" class="owl-carousel owl-theme">
+
+                    {% for movie in movies %}
+
 					<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m13.jpg" %} title="album-name" class="img-responsive" alt=" " />
+							<a href="{% url 'movie_single' movie.pk %}" class="hvr-shutter-out-horizontal"><img src="{{ MEDIA_URL }}{{ movie.images }}" title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">Citizen Soldier</a></h6>							
+									<h6><a href="single.html">{{ movie.title }}</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
-									<p>2016</p>
+									<p>{{ movie.release_date.year }}</p>
 									<div class="block-stars">
 										<ul class="w3l-ratings">
 											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
@@ -296,7 +312,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="item">
+
+                    {% endfor %}
+
+					<!--<div class="item">
 						<div class="w3l-movie-gride-agile w3l-movie-gride-agile1">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m11.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
@@ -519,7 +538,7 @@
 								<p>NEW</p>
 							</div>
 						</div>
-					</div>
+					</div>-->
 				</div>
 			</div>			
 		</div>
@@ -549,16 +568,19 @@
 				<div id="myTabContent" class="tab-content">
 					<div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
 						<div class="w3_agile_featured_movies">
+
+                            {% for movie in featured_movies|slice:'0:18' %}
+
 							<div class="col-md-2 w3l-movie-gride-agile">
-								<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m15.jpg" %} title="album-name" class="img-responsive" alt=" " />
+								<a href={% url 'movie_single' movie.pk %} class="hvr-shutter-out-horizontal"><img src="{{ MEDIA_URL }}{{ movie.images }}" title="album-name" class="img-responsive" alt=" " />
 									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 								</a>
 								<div class="mid-1 agileits_w3layouts_mid_1_home">
 									<div class="w3l-movie-text">
-										<h6><a href="single.html">God’s Compass</a></h6>							
+										<h6><a href={% url 'movie_single' movie.pk %}>{{ movie.title }}</a></h6>
 									</div>
 									<div class="mid-2 agile_mid_2_home">
-										<p>2016</p>
+										<p>{{ movie.relaease.year }}</p>
 										<div class="block-stars">
 											<ul class="w3l-ratings">
 												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
@@ -575,7 +597,10 @@
 									<p>NEW</p>
 								</div>
 							</div>
-							<div class="col-md-2 w3l-movie-gride-agile">
+
+                            {% endfor %}
+
+							<!--<div class="col-md-2 w3l-movie-gride-agile">
 								<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m2.jpg" %} title="album-name" class="img-responsive" alt=" "  />
 									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 								</a>
@@ -860,12 +885,41 @@
 								<div class="ribben">
 									<p>NEW</p>
 								</div>
-							</div>
+							</div>-->
 							<div class="clearfix"> </div>
 						</div>
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="profile" aria-labelledby="profile-tab">
-						<div class="col-md-2 w3l-movie-gride-agile">
+
+                        {% for movie in top_view|slice:'0:18' %}
+                            <div class="col-md-2 w3l-movie-gride-agile">
+								<a href={% url 'movie_single' movie.pk %} class="hvr-shutter-out-horizontal"><img src="{{ MEDIA_URL }}{{ movie.images }}" title="album-name" class="img-responsive" alt=" " />
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+								</a>
+								<div class="mid-1 agileits_w3layouts_mid_1_home">
+									<div class="w3l-movie-text">
+										<h6><a href={% url 'movie_single' movie.pk %}>{{ movie.title }}</a></h6>
+									</div>
+									<div class="mid-2 agile_mid_2_home">
+										<p>{{ movie.relaease.year }}</p>
+										<div class="block-stars">
+											<ul class="w3l-ratings">
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+											</ul>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<div class="ribben">
+									<p>NEW</p>
+								</div>
+							</div>
+
+						<!--<div class="col-md-2 w3l-movie-gride-agile">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m22.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
@@ -890,8 +944,12 @@
 							<div class="ribben">
 								<p>NEW</p>
 							</div>
-						</div>
-						<div class="col-md-2 w3l-movie-gride-agile">
+						</div>-->
+
+                        {% endfor %}
+
+{#						Assassin's Creed 3#}
+                        <!--<div class="col-md-2 w3l-movie-gride-agile">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m2.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
@@ -942,11 +1000,40 @@
 							<div class="ribben">
 								<p>NEW</p>
 							</div>
-						</div>
+						</div>-->
 						<div class="clearfix"> </div>
 					</div>
 					<div role="tabpanel" class="tab-pane fade" id="rating" aria-labelledby="rating-tab">
-						<div class="col-md-2 w3l-movie-gride-agile">
+
+                        {% for movie in Top_Rating|slice:'0:18' %}
+                            <div class="col-md-2 w3l-movie-gride-agile">
+								<a href={% url 'movie_single' movie.pk %} class="hvr-shutter-out-horizontal"><img src="{{ MEDIA_URL }}{{ movie.images }}" title="album-name" class="img-responsive" alt=" " />
+									<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
+								</a>
+								<div class="mid-1 agileits_w3layouts_mid_1_home">
+									<div class="w3l-movie-text">
+										<h6><a href={% url 'movie_single' movie.pk %}>{{ movie.title }}</a></h6>
+									</div>
+									<div class="mid-2 agile_mid_2_home">
+										<p>{{ movie.relaease.year }}</p>
+										<div class="block-stars">
+											<ul class="w3l-ratings">
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
+												<li><a href="#"><i class="fa fa-star-half-o" aria-hidden="true"></i></a></li>
+											</ul>
+										</div>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<div class="ribben">
+									<p>NEW</p>
+								</div>
+							</div>
+
+						<!--<div class="col-md-2 w3l-movie-gride-agile">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m7.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
@@ -971,8 +1058,11 @@
 							<div class="ribben">
 								<p>NEW</p>
 							</div>
-						</div>
-						<div class="col-md-2 w3l-movie-gride-agile">
+						</div>-->
+
+                        {% endfor %}
+
+						<!--<div class="col-md-2 w3l-movie-gride-agile">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m11.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
@@ -1049,20 +1139,25 @@
 							<div class="ribben">
 								<p>NEW</p>
 							</div>
-						</div>
+						</div>-->
 						<div class="clearfix"> </div>
 					</div>
+
 					<div role="tabpanel" class="tab-pane fade" id="imdb" aria-labelledby="imdb-tab">
+
+                        {% for movie in Recently_Added|slice:'0:18' %}
+
+
 						<div class="col-md-2 w3l-movie-gride-agile">
-							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m22.jpg" %} title="album-name" class="img-responsive" alt=" " />
+							<a href={% url "movie_single" movie.pk %} class="hvr-shutter-out-horizontal"><img src="{{ MEDIA_URL }}{{ movie.images }}" title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
 							<div class="mid-1 agileits_w3layouts_mid_1_home">
 								<div class="w3l-movie-text">
-									<h6><a href="single.html">Assassin's Creed 3</a></h6>							
+									<h6><a href={% url "movie_single" movie.pk %}>{{ movie.title }}</a></h6>
 								</div>
 								<div class="mid-2 agile_mid_2_home">
-									<p>2016</p>
+									<p>{{ movie.release.year }}</p>
 									<div class="block-stars">
 										<ul class="w3l-ratings">
 											<li><a href="#"><i class="fa fa-star" aria-hidden="true"></i></a></li>
@@ -1079,7 +1174,10 @@
 								<p>NEW</p>
 							</div>
 						</div>
-						<div class="col-md-2 w3l-movie-gride-agile">
+
+                        {% endfor %}
+
+						<!--<div class="col-md-2 w3l-movie-gride-agile">
 							<a href="single.html" class="hvr-shutter-out-horizontal"><img src={% static "images/m2.jpg" %} title="album-name" class="img-responsive" alt=" " />
 								<div class="w3l-action-icon"><i class="fa fa-play-circle" aria-hidden="true"></i></div>
 							</a>
@@ -1182,7 +1280,7 @@
 							<div class="ribben">
 								<p>NEW</p>
 							</div>
-						</div>
+						</div>-->
 						<div class="clearfix"> </div>
 					</div>
 				</div>
