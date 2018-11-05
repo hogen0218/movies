@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView
 from users.forms import UserRegisterForm, UserLoginForm
 from .models import Movie
+from comments.forms import CommentsForm
+from comments.models import Comments
+
+
 # Create your views here.
 
 
@@ -22,13 +26,12 @@ class Index(TemplateView):
         return super().get_context_data(**kwargs)
 
 
-
 class Single(DetailView):
     template_name = 'movies/single.html'
     model = Movie
     context_object_name = 'single_detail'
 
-    # def get_context_data(self, **kwargs):
-    #     kwargs['movies'] = Movie.objects.all()
-    #     return super().get_context_data(**kwargs)
-
+    def get_context_data(self, **kwargs):
+        kwargs['comment_form'] = CommentsForm()
+        kwargs['comments'] = Comments.objects.filter(movie__id=kwargs['object'].pk).order_by('-comment_time')
+        return super().get_context_data(**kwargs)

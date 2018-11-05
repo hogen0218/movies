@@ -33,7 +33,8 @@ class Login(FormView):
 
         if user is not None:
             login(self.request, user)
-            return super().form_valid(form)
+            url = self.request.META['HTTP_REFERER']
+            return redirect(url)
         else:
             return super().form_valid(form)
 
@@ -46,4 +47,5 @@ class Login(FormView):
 
 def user_logout(request):
     logout(request)
-    return redirect(reverse_lazy('movie_index'))
+    url = request.META['HTTP_REFERER']
+    return redirect(url)
