@@ -32,7 +32,7 @@ class Movie(models.Model):
     find = models.ManyToManyField(Kind)
     images = models.ImageField(null=True)
     hotkind = models.ManyToManyField(HotKind)
-
+    tail = models.FileField(upload_to='video', null=True, verbose_name='预告片')
     class Meta:
         verbose_name = '电影信息'
         verbose_name_plural = verbose_name

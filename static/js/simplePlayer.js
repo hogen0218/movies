@@ -36,8 +36,9 @@ window.onYouTubeIframeAPIReady = function() {
 				iv_load_policy: 3 // add origin
 			};
 
+		var src = document.getElementById("single-video").value;
+		// alert(src);
 		// onYouTubeIframeAPIReady
-
 		YTdeferred.done(function(YT) {
 			play.appendTo( video ).fadeIn('slow');
 		});
@@ -61,7 +62,9 @@ window.onYouTubeIframeAPIReady = function() {
 
 				$('<iframe />', {
 					id: 'player',
-					src: 'https://www.youtube.com/embed/' + video.data('video') + '?' + $.param(defaults)
+					// src: 'https://www.youtube.com/embed/' + video.data('video') + '?' + $.param(defaults)
+					src: src
+					// src:"http://127.0.0.1:8000/media/vedio/zorro.mp4"
 				})
 				.attr({ width: video.width(), height: video.height(), seamless: 'seamless' })
 				.css('border', 'none')
